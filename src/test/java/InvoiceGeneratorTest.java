@@ -17,9 +17,9 @@ public class InvoiceGeneratorTest {
     public void whenGivenDistanceAndTime_shouldReturnTotalFare() {
         double distance=2.0;
         int time=5;
-        double fare= invoiceService.calculateFare(distance,time);
+        double fare= invoiceService.calculateFare(distance,time,Ride.RideType.PREMIUM);
         System.out.println(fare);
-        Assert.assertEquals(25,fare,0.0);
+        Assert.assertEquals(40,fare,0.0);
     }
 
 /*    @Test
@@ -35,8 +35,8 @@ public class InvoiceGeneratorTest {
     @Test
     public void givenMultipleRides_shouldReturnInvoiceSummary() {
         Ride[] rides={
-                new Ride(2.0,5),
-                new Ride(0.1,1)
+                new Ride(2.0,5,Ride.RideType.NORMAL),
+                new Ride(0.1,1,Ride.RideType.NORMAL)
         };
         InvoiceSummary summary= invoiceService.calculateFare(rides);
         InvoiceSummary expectedInvoiceSummary=new InvoiceSummary(2,30.0);
@@ -47,12 +47,12 @@ public class InvoiceGeneratorTest {
     public void givenUserIdAndRides_shouldReturnInvoiceSummary() {
         String userId="a@b.com";
         Ride[] rides={
-                new Ride(2.0,5),
-                new Ride(0.1,1)
+                new Ride(2.0,5,Ride.RideType.PREMIUM),
+                new Ride(0.1,1,Ride.RideType.PREMIUM)
         };
         invoiceService.addRide(userId,rides);
         InvoiceSummary summary =invoiceService.getInvoiceSummary(userId);
-        InvoiceSummary expectedInvoiceSummary=new InvoiceSummary(2,30.0);
+        InvoiceSummary expectedInvoiceSummary=new InvoiceSummary(2,60.0);
         Assert.assertEquals(expectedInvoiceSummary,summary);
     }
 }
